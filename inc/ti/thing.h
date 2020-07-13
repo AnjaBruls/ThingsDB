@@ -103,6 +103,16 @@ static inline _Bool ti_thing_is_instance(ti_thing_t * thing)
     return thing->type_id != TI_SPEC_OBJECT;
 }
 
+static inline _Bool ti_thing_as_map(ti_thing_t * thing)
+{
+    return thing->flags & TI_VFLAG_THING_AS_MAP;
+}
+
+static inline uint32_t ti_thing_n(ti_thing_t * thing)
+{
+    return ti_thing_as_map(thing) ? thing->items.smap->n : thing->items.vec->n;
+}
+
 static inline _Bool ti_thing_has_watchers(ti_thing_t * thing)
 {
     return thing->watchers && ti__thing_has_watchers_(thing);
@@ -146,18 +156,18 @@ static inline ti_prop_t * ti_thing_o_prop_weak_get(
     return NULL;
 }
 
-#define thing_t_each(t__, name__, val__)                          \
-    void ** v__ = t__->items->data,                             \
-    ** e__ = v__ + t__->items->n,                               \
+#define thing_t_each(t__, name__, val__)                        \
+    void ** v__ = t__->items.vec->data,                         \
+    ** e__ = v__ + t__->items.vec->n,                           \
     ** n__ = ti_thing_type(t__)->fields->data;                  \
     v__ < e__ &&                                                \
     (name__ = ((ti_field_t *) *n__)->name) &&                   \
     (val__ = *v__);                                             \
     ++v__, ++n__
 
-#define thing_t_each_addr(t__, name__, val__)                     \
-    void ** v__ = t__->items->data,                             \
-    ** e__ = v__ + t__->items->n,                               \
+#define thing_t_each_addr(t__, name__, val__)                   \
+    void ** v__ = t__->items.vec->data,                         \
+    ** e__ = v__ + t__->items.vec->n,                           \
     ** n__ = ti_thing_type(t__)->fields->data;                  \
     v__ < e__ &&                                                \
     (name__ = ((ti_field_t *) *n__)->name) &&                   \

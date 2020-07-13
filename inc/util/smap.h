@@ -36,20 +36,20 @@ int smap_values(smap_t * smap, smap_val_cb cb, void * arg);
 
 struct smap_s
 {
+    uint32_t n;
     uint8_t offset;
     uint8_t sz;
     uint16_t pad0;
-    uint32_t n;
     smap_nodes_t * nodes;
 };
 
 struct smap_node_s
 {
+    uint32_t n;
     uint8_t offset;
     uint8_t sz;
     uint8_t size;
     uint8_t pad0;
-    uint32_t n;
     smap_nodes_t * nodes;
     char * key;
     void * data;

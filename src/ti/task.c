@@ -147,7 +147,7 @@ fail_pack:
     return -1;
 }
 
-int ti_task_add_set(ti_task_t * task, ti_name_t * name, ti_val_t * val)
+int ti_task_add_set(ti_task_t * task, ti_key_t * key, ti_val_t * val)
 {
     ti_data_t * data;
     msgpack_packer pk;
@@ -164,7 +164,7 @@ int ti_task_add_set(ti_task_t * task, ti_name_t * name, ti_val_t * val)
         msgpack_pack_map(&pk, 1)
     ) goto fail_pack;
 
-    if (mp_pack_strn(&pk, name->str, name->n) ||
+    if (mp_pack_strn(&pk, key->str, key->n) ||
         ti_val_to_pk(val, &pk, TI_VAL_PACK_TASK)
     ) goto fail_pack;
 
@@ -270,9 +270,9 @@ fail_data:
     return -1;
 }
 
-int ti_task_add_del(ti_task_t * task, ti_raw_t * rname)
+int ti_task_add_del(ti_task_t * task, ti_key_t * key)
 {
-    size_t alloc = 64 + rname->n;
+    size_t alloc = 64 + key->n;
     ti_data_t * data;
     msgpack_packer pk;
     msgpack_sbuffer buffer;
@@ -283,7 +283,7 @@ int ti_task_add_del(ti_task_t * task, ti_raw_t * rname)
 
     msgpack_pack_map(&pk, 1);
     mp_pack_str(&pk, "del");
-    mp_pack_strn(&pk, rname->data, rname->n);
+    mp_pack_strn(&pk, key->str, key->n);
 
     data = (ti_data_t *) buffer.data;
     ti_data_init(data, buffer.size);

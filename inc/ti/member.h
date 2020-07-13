@@ -10,11 +10,17 @@
 #include <ti/enum.t.h>
 #include <ti/member.t.h>
 #include <ti/name.t.h>
+#include <ti/key.t.h>
 #include <ti/val.t.h>
 
 ti_member_t * ti_member_create(
         ti_enum_t * enum_,
         ti_name_t * name,
+        ti_val_t * val,
+        ex_t * e);
+ti_member_t * ti_member_from_key(
+        ti_enum_t * enum_,
+        ti_key_t * key,
         ti_val_t * val,
         ex_t * e);
 void ti_member_destroy(ti_member_t * member);

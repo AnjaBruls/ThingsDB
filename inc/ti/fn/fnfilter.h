@@ -63,7 +63,9 @@ static int do__f_filter(ti_query_t * query, cleri_node_t * nd, ex_t * e)
     {
         ti_thing_t * thing, * t = (ti_thing_t *) iterval;
 
-        thing = ti_thing_o_create(0, t->items->n, query->collection);
+        if (ti_thing_as_map(t))
+        {
+        thing = ti_thing_o_create(0, t->items.vec->n, query->collection);
         if (!thing)
             goto fail2;
 
@@ -71,7 +73,7 @@ static int do__f_filter(ti_query_t * query, cleri_node_t * nd, ex_t * e)
 
         if (ti_thing_is_object(t))
         {
-            for (vec_each(t->items, ti_prop_t, p))
+            for (vec_each(t->items.vec, ti_prop_t, p))
             {
                 if (ti_closure_vars_prop(closure, p, e) ||
                     ti_closure_do_statement(closure, query, e))

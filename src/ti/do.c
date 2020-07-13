@@ -1002,7 +1002,7 @@ static int do__instance(ti_query_t * query, cleri_node_t * nd, ex_t * e)
     }
 
     for (n = type->fields->n; n--;)
-        VEC_push(thing->items, NULL);
+        VEC_push(thing->items.vec, NULL);
 
     lock_was_set = ti_type_ensure_lock(type);
 

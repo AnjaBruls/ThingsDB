@@ -76,6 +76,11 @@ enum
                                             a full `dump` in a task while
                                             existing things only can contain
                                             the `id`.*/
+    TI_VFLAG_THING_AS_MAP    =1<<2,
+};
+
+enum
+{
     TI_VFLAG_CLOSURE_BTSCOPE =1<<2,      /* closure bound to query string
                                             within the thingsdb scope;
                                             when not stored, closures do not
@@ -92,8 +97,16 @@ enum
                                             wrapped by wse() so we can know
                                             an event is created.
                                             (only stored closures) */
+};
+
+enum
+{
     TI_VFLAG_LOCK            =1<<5,      /* thing or value in use;
                                             used to prevent illegal changes */
+};
+
+enum
+{
     TI_VFLAG_ARR_TUPLE       =1<<6,      /* array is immutable; nested, and
                                             only nested array's are tuples;
                                             once a tuple is direct assigned to

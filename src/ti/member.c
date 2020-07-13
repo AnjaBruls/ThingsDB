@@ -64,6 +64,38 @@ ti_member_t * ti_member_create(
     return member;
 }
 
+ti_member_t * ti_member_from_raw(
+        ti_enum_t * enum_,
+        ti_key_t * key,
+        ti_val_t * val,
+        ex_t * e)
+{
+    ti_member_t * member;
+    ti_name_t * name;
+
+    if (ti_raw_is_name(key))
+    {
+        name = (ti_name_t *) rname;
+        ti_incref(name);
+    }
+    else
+    {
+        if (!ti_raw_check_valid_name(rname, "member", e))
+            return e->nr;
+
+        name = ti_names_get((const char *) rname->data, rname->n);
+        if (!name)
+        {
+            ex_set_mem(e);
+            return NULL;
+        }
+    }
+
+    member = ti_member_create(enum_, name, val, e);
+    ti_name_unsafe_drop(name);
+    return member;
+}
+
 void ti_member_destroy(ti_member_t * member)
 {
     if (!member)
