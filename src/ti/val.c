@@ -1160,9 +1160,9 @@ _Bool ti_val_as_bool(ti_val_t * val)
     case TI_VAL_SET:
         return !!VSET(val)->n;
     case TI_VAL_THING:
-        return !!((ti_thing_t *) val)->items->n;
+        return !!ti_thing_n((ti_thing_t *) val);
     case TI_VAL_WRAP:
-        return !!((ti_wrap_t *) val)->thing->items->n;
+        return !!ti_thing_n(((ti_wrap_t *) val)->thing);
     case TI_VAL_CLOSURE:
     case TI_VAL_ERROR:
         return true;
@@ -1197,9 +1197,9 @@ size_t ti_val_get_len(ti_val_t * val)
     case TI_VAL_REGEX:
         break;
     case TI_VAL_THING:
-        return ((ti_thing_t *) val)->items->n;
+        return ti_thing_n((ti_thing_t *) val);
     case TI_VAL_WRAP:
-        return ((ti_wrap_t *) val)->thing->items->n;
+        return ti_thing_n(((ti_wrap_t *) val)->thing);
     case TI_VAL_ARR:
         return VARR(val)->n;
     case TI_VAL_SET:
